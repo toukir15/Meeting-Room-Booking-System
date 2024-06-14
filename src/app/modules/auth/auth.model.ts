@@ -3,7 +3,7 @@ import { TUser } from './auth.interface';
 
 const userSchema = new Schema<TUser>({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   phone: { type: String, required: true },
   address: { type: String, required: true },

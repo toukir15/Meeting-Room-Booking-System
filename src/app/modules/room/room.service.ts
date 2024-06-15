@@ -19,6 +19,11 @@ const getSingleRoomFromDB = async (id: string) => {
 };
 
 const updateRoomIntoDB = async (id: string, payload: Partial<TRoom>) => {
+  // check is room exist or not
+  const isRoomExist = await Room.findById(id);
+  if (!isRoomExist) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Room is not exist');
+  }
   const result = await Room.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
@@ -27,6 +32,12 @@ const updateRoomIntoDB = async (id: string, payload: Partial<TRoom>) => {
 };
 
 const deleteRoomIntoDB = async (id: string) => {
+  // check is room exist or not
+  const isRoomExist = await Room.findById(id);
+  if (!isRoomExist) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Room is not exist');
+  }
+
   const isDeleted = await Room.findOne({ _id: id, isDeleted: true });
 
   // check room already deleted or not
